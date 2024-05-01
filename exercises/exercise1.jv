@@ -6,8 +6,7 @@ pipeline AirportsPipeline {
     
     block AirportsTextFileInterpreter oftype TextFileInterpreter {}
     
-    block AirportsCSVInterpreter oftype CSVInterpreter {
-        enclosing: ';';
+    block AirportsCSVInterpreter oftype CSVInterpreter {      
         delimiter: ';';
     }
 
@@ -24,7 +23,7 @@ pipeline AirportsPipeline {
             "Latitude" oftype decimal,
             "Longitude" oftype decimal,
             "Altitude" oftype decimal,
-            "Zeitzone" oftype text, 
+            "Zeitzone" oftype decimal, 
             "DST" oftype text,
             "Zeitzonen-Datenbank" oftype text,
             "geo_punkt" oftype text
