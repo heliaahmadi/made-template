@@ -30,14 +30,14 @@ pipeline TreesPipeline {
     }
 
     block DropColumn oftype ColumnDeleter {
-    delete: [column *];  
+        delete: [column *];
     }
 
     block TreesTableInterpreter oftype TableInterpreter {
         header: true; 
     
         columns: [
-            "Ifd_nr" oftype integer, 
+            "lfd_nr" oftype integer, 
             "stadtteil" oftype StadtteilType,
             "standort" oftype text,
             "baumart_botanisch" oftype text,
