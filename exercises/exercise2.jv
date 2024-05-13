@@ -30,7 +30,7 @@ pipeline TreesPipeline {
     }
 
     block DropColumn oftype ColumnDeleter {
-        delete: [column *];
+        delete: [column E];
     }
 
     block TreesTableInterpreter oftype TableInterpreter {
@@ -41,6 +41,7 @@ pipeline TreesPipeline {
             "stadtteil" oftype StadtteilType,
             "standort" oftype text,
             "baumart_botanisch" oftype text,
+            "baumart_deutsch" oftype text,
             "id" oftype GeocoordinatesType,
             "baumfamilie" oftype text
         ];
