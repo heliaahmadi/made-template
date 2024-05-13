@@ -1,10 +1,10 @@
 
 
-valuetype StadtteilType oftype text {
-    constraints: [StadtteilRegex];
+valuetype StadtTeilType oftype text {
+    constraints: [StadtTeilRegex];
 }
 
-constraint StadtteilRegex oftype RegexConstraint {
+constraint StadtTeilRegex oftype RegexConstraint {
     regex: /^Furth-.*/;  
 }
 
@@ -38,7 +38,7 @@ pipeline TreesPipeline {
     
         columns: [
             "lfd_nr" oftype integer, 
-            "stadtteil" oftype StadtteilType,
+            "stadtteil" oftype StadtTeilType,
             "standort" oftype text,
             "baumart_botanisch" oftype text,
             "baumart_deutsch" oftype text,
