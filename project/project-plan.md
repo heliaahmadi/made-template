@@ -2,25 +2,30 @@
 
 ## Title
 <!-- Give your project a short title. -->
-Air Quality Analysis for Public Health
+Possible factors for climate change in London
 
 ## Main Question
 
 <!-- Think about one main question you want to answer based on the data. -->
-How does the fluctuation in air quality metrics correlate with public health incidents in urban areas?
+How do air quality, energy consumption, and greenhouse gas emissions correlate with public health incidents in urban areas of London?
 
 ## Description
 
 <!-- Describe your data science project in max. 200 words. Consider writing about why and how you attempt it. -->
-Air quality significantly impacts public health, particularly in densely populated urban environments. This project aims to analyze the correlation between air quality metrics (like PM10, NO2 levels) and the incidence of respiratory problems among the urban population. By using historical air quality data and health incident reports, the project seeks to identify patterns and potential causative relationships. The findings could provide insights for policymakers to enhance urban planning and health advisories.
+This project aims to explore the relationships between air quality metrics, energy consumption levels, greenhouse gas emissions, and public health incidents in London. By integrating these diverse datasets, the study intends to uncover potential causative links between environmental factors and health outcomes. The insights derived could be invaluable for policymakers focused on improving urban planning and implementing effective health advisories to mitigate the impacts of environmental pollutants.
 
 ## Datasources
 
 <!-- Describe each datasources you plan to use in a section. Use the prefic "DatasourceX" where X is the id of the datasource. -->
 
-### Datasource1: ExampleSource
-* Metadata URL: [https://mobilithek.info/offers/-6901989592576801458](https://archive.ics.uci.edu/dataset/360/air+quality)
-* Data URL: [https://raw.githubusercontent.com/od-ms/radverkehr-zaehlstellen/main/100035541/2019-01.csv](https://archive.ics.uci.edu/ml/machine-learning-databases/00360/AirQualityUCI.zip)
+### Datasource1: LEGGI 2010 - 2017 Energy Consumption by Borough.csv
+* Metadata URL: https://data.europa.eu/data/datasets/london-energy-and-greenhouse-gas-inventory-leggi?locale=en
+* Data URL: https://data.london.gov.uk/download/leggi/2d6ee3f1-e928-48a9-8eab-01748c65ac6f/energy-consumption-borough-leggi.csv
+* Data Type: CSV
+
+### Datasource2: LEGGI 2010 - 2017 Greenhouse Gas Emissions by Borough.csv
+* Metadata URL: https://data.europa.eu/data/datasets/london-energy-and-greenhouse-gas-inventory-leggi?locale=en
+* Data URL: https://data.london.gov.uk/download/leggi/fcf8a0a3-2051-484a-ba9a-5c8bc2268a3e/co2-emissions-borough-leggi.csv
 * Data Type: CSV
 
 Short description of the DataSource.
@@ -32,4 +37,4 @@ Short description of the DataSource.
 1. Example Issue [#1][i1]
 2. ...
 
-[i1]: https://github.com/jvalue/made-template/issues/1
+[i1]: https://github.com/heliaahmadi/made-template/issues/1#issue-2312470908
