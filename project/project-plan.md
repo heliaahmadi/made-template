@@ -28,8 +28,6 @@ This project aims to explore the relationships between air quality metrics, ener
 * Data URL: https://data.london.gov.uk/download/leggi/fcf8a0a3-2051-484a-ba9a-5c8bc2268a3e/co2-emissions-borough-leggi.csv
 * Data Type: CSV
 
-Short description of the DataSource.
-
 ## Work Packages
 
 <!-- List of work packages ordered sequentially, each pointing to an issue with more details. -->
