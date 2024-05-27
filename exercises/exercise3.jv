@@ -8,8 +8,8 @@ pipeline TrainGoodsData {
     } 	
     
     block GoodsLineSelector oftype TextRangeSelector {
-        lineFrom: 9;
-        lineTo: 7000; 
+        lineFrom: 8;
+        lineTo: 6000; 
     }
 
 	block GoodsCSVInterpreter oftype CSVInterpreter {
@@ -62,8 +62,10 @@ constraint GoodsIdRegex oftype RegexConstraint {
         ];
     }
 
-    constraint PositiveConstraint on decimal :
-        value>= 0;
+    constraint PositiveConstraint oftype RangeConstraint {
+        lowerBound: 0;
+        lowerBoundInclusive: true;
+    }
 
 	block GoodsDatabaseLoader oftype SQLiteLoader {
 		table: "goods";
