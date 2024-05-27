@@ -64,7 +64,6 @@ constraint GoodsIdRegex oftype RegexConstraint {
 
     constraint PositiveConstraint oftype RangeConstraint {
         lowerBound: 0;
-        lowerBoundInclusive: true;
     }
 
 	block GoodsDatabaseLoader oftype SQLiteLoader {
