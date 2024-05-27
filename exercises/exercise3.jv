@@ -3,7 +3,9 @@ pipeline TrainGoodsData {
         url: "https://www-genesis.destatis.de/genesis/downloads/00/tables/46131-0014_00.csv";
     }
 
-	block GoodsTextFileInterpreter oftype TextFileInterpreter {} 	
+	block GoodsTextFileInterpreter oftype TextFileInterpreter {
+        encoding: "latin3"
+    } 	
     
     block GoodsLineSelector oftype TextRangeSelector {
         lineFrom: 9;
