@@ -62,9 +62,8 @@ constraint GoodsIdRegex oftype RegexConstraint {
         ];
     }
 
-    constraint PositiveConstraint oftype RangeConstraint {
-        lowerBound: 0;
-    }
+    constraint PositiveConstraint on decimal :
+        value>= 0;
 
 	block GoodsDatabaseLoader oftype SQLiteLoader {
 		table: "goods";
