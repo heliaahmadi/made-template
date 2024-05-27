@@ -4,7 +4,7 @@ pipeline TrainGoodsData {
     }
 
 	block GoodsTextFileInterpreter oftype TextFileInterpreter {
-        encoding: "latin3"
+        encoding: "latin3";
     } 	
     
     block GoodsLineSelector oftype TextRangeSelector {
