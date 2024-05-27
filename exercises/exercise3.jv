@@ -1,0 +1,82 @@
+pipeline TrainGoodsData {
+    block DataExtractor oftype HttpExtractor {
+        url: "https://www-genesis.destatis.de/genesis/downloads/00/tables/46131-0014_00.csv";
+    }
+
+	block GoodsTextFileInterpreter oftype TextFileInterpreter {} 	
+    
+    block GoodsLineSelector oftype TextRangeSelector {
+        lineFrom: 9;
+        lineTo: 3000; 
+    }
+
+	block GoodsCSVInterpreter oftype CSVInterpreter {
+    delimiter: ';';
+}
+
+     block GoodsColumnRenamer_AToE oftype CellWriter {
+        at: range A1:E1;
+         write: ["year", "month", "goods_id", "goods_name", "goods_source"];
+    }
+
+    block GoodsColumnRenamer_ATtoAU oftype CellWriter {
+        at: range AT1:AU1;
+         write: ["abroad", "total"];
+    }
+
+	block GoodsTableInterpreter oftype TableInterpreter {
+		header: true;
+        columns:[
+            "year" oftype PositiveInteger,
+            "month" oftype GermanMonth,
+            "goods_name" oftype text,
+            "goods_source" oftype text,
+            "goods_id" oftype GoodsId,
+            "abroad" oftype PositiveInteger,
+            "total" oftype PositiveInteger
+        ];
+    }
+
+
+    valuetype GermanMonth oftype text {
+    constraints:[GermanMonthConstraint];
+}
+
+constraint GermanMonthConstraint oftype AllowlistConstraint {
+    allowlist:['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+}
+
+    valuetype GoodsId oftype text {
+    constraints: [GoodsIdRegex];
+}
+
+constraint GoodsIdRegex oftype RegexConstraint {
+    regex: /^NST7-([A-Z0-9]{3})$/; 
+}
+
+    valuetype PositiveInteger oftype integer {
+        constraints: [
+            PositiveConstraint
+        ];
+    }
+
+    constraint PositiveConstraint oftype RangeConstraint {
+        lowerBound: 0;
+        lowerBoundInclusive: true;
+    }
+
+	block GoodsDatabaseLoader oftype SQLiteLoader {
+		table: "goods";
+		file: "./goodsTransportedByTrain.sqlite";
+	}
+
+    DataExtractor
+    -> GoodsTextFileInterpreter
+    -> GoodsLineSelector
+    -> GoodsCSVInterpreter
+    -> GoodsColumnRenamer_AToE
+    -> GoodsColumnRenamer_ATtoAU
+    -> GoodsTableInterpreter
+    -> GoodsDatabaseLoader;
+
+}
