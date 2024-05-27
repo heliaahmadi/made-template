@@ -9,7 +9,7 @@ pipeline TrainGoodsData {
     
     block GoodsLineSelector oftype TextRangeSelector {
         lineFrom: 8;
-        lineTo: 6000; 
+        lineTo: 50000; 
     }
 
 	block GoodsCSVInterpreter oftype CSVInterpreter {
