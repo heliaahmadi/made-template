@@ -28,7 +28,7 @@ pipeline TrainGoodsData {
    
     }
 
-	block TemperaturesTableInterpreter oftype TableInterpreter { 
+	block TemperatureTableInterpreter oftype TableInterpreter { 
      header: true; 
      columns: [
                 "id" oftype PositiveInteger,
@@ -71,7 +71,7 @@ pipeline TrainGoodsData {
        use: CelsiusToFahrenheit;
     }
 
-	block TemperaturesDatabaseLoader oftype SQLiteLoader { 
+	block TemperatureDatabaseLoader oftype SQLiteLoader { 
        table: "temperatures";
        file: "./temperatures.sqlite";
     }
@@ -80,10 +80,12 @@ pipeline TrainGoodsData {
     -> TemperaturFilePicker 
     -> TemperaturTextFileInterpreter 
     -> TemperaturCSVInterpreter 
+    -> GeraetAktivCellRangeSelector
+    -> TemperaturesColumnDeleter
     -> TemperaturRenameHeader 
-    -> TemperaturesTableInterpreter 
+    -> TemperatureTableInterpreter 
     -> CelsiusToFahrenheitTemperatureTransformation 
     -> CelsiusToFahrenheitBatteryTemperatureTransformation 
-    -> TemperaturesDatabaseLoader;
+    -> TemperatureDatabaseLoader;
 
 }
