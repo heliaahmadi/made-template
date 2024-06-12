@@ -1,0 +1,89 @@
+pipeline TrainGoodsData {
+
+    block DataExtractor oftype GTFSExtractor {
+        url: "https://www.mowesta.com/data/measure/mowesta-dataset-20221107.zip";
+    }
+
+    block TemperaturFilePicker oftype FilePicker {
+        path: "/data.csv";
+    }
+
+	block TemperaturTextFileInterpreter oftype TextFileInterpreter {} 	
+
+	block TemperaturCSVInterpreter oftype CSVInterpreter {
+        delimiter: ';';
+    }
+
+    block GeraetAktivCellRangeSelector oftype CellRangeSelector {
+        select: range A1:K*;
+    }
+
+    block TemperaturesColumnDeleter oftype ColumnDeleter {
+	   delete: [column F, column G, column H, column I];    
+    }
+
+    block TemperaturRenameHeader oftype CellWriter {
+       at: range A1:F1;
+       write: ["id","producer","model", "month","temperature","battery_temperature"];
+   
+    }
+
+	block TemperaturesTableInterpreter oftype TableInterpreter { 
+     header: true; 
+     columns: [
+                "id" oftype PositiveInteger,
+                "producer" oftype text,
+                "model" oftype text,
+                "month" oftype integer,
+                "temperature" oftype decimal,
+                "battery_temperature" oftype decimal
+              ];
+     
+  
+    }
+
+    valuetype PositiveInteger oftype integer {
+        constraints: [
+            PositiveConstraint
+        ];
+    }
+
+    constraint PositiveConstraint oftype RangeConstraint {
+        lowerBound: 0;
+        lowerBoundInclusive: true;
+    }
+
+    transform CelsiusToFahrenheit {
+    from Celsius oftype decimal;
+    to Fahrenheit oftype decimal;
+    Fahrenheit: (Celsius * 9/5) + 32;
+    }
+
+    block CelsiusToFahrenheitTemperatureTransformation oftype TableTransformer {
+       inputColumns: ['temperature'];
+       outputColumn: 'temperature';
+       use: CelsiusToFahrenheit;
+    }
+
+    block CelsiusToFahrenheitBatteryTemperatureTransformation oftype TableTransformer {
+       inputColumns: ['battery_temperature'];
+       outputColumn: 'battery_temperature';
+       use: CelsiusToFahrenheit;
+    }
+
+	block TemperaturesDatabaseLoader oftype SQLiteLoader { 
+       table: "temperatures";
+       file: "./temperatures.sqlite";
+    }
+
+    DataExtractor
+    -> TemperaturFilePicker 
+    -> TemperaturTextFileInterpreter 
+    -> TemperaturCSVInterpreter 
+    -> TemperaturRenameHeader 
+    -> TemperaturesTableInterpreter 
+    -> CelsiusToFahrenheitTemperatureTransformation 
+    -> CelsiusToFahrenheitBatteryTemperatureTransformation 
+    -> TemperaturesDatabaseLoader;
+
+}
