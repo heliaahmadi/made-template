@@ -22,11 +22,6 @@ pipeline GtfsData {
         enclosing: '"';
     }
 
-    block StopsHeaderColumnRenamer_AtoE oftype CellWriter {
-        at: range A1:E1;
-         write: ["stop_id", "stop_name", "stop_lat", "stop_lon", "zone_id"];
-    }
-
 	block GtfsTableInterpreter oftype TableInterpreter { 
      header: true; 
      columns: [
@@ -81,7 +76,6 @@ pipeline GtfsData {
     -> StopsFilePicker 
     -> GtfsTextFileInterpreter 
     -> GtfsCSVInterpreter 
-    -> StopsHeaderColumnRenamer_AtoE
     -> GtfsTableInterpreter
     -> GtfsDatabaseLoader;
 }
