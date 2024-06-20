@@ -1,0 +1,87 @@
+pipeline GtfsData {
+
+    block DataExtractor oftype HttpExtractor {
+        url: "https://gtfs.rhoenenergie-bus.de/GTFS.zip";
+    }
+
+    block ZipArchiveInterpreter oftype ArchiveInterpreter {
+        archiveType: "zip";
+    }
+
+    block StopsFilePicker oftype FilePicker {
+     path: "/stops.txt";
+    }
+
+	block GtfsTextFileInterpreter oftype TextFileInterpreter {
+        encoding: "utf8";
+
+    } 	
+
+	block GtfsCSVInterpreter oftype CSVInterpreter {
+        delimiter: ",";
+        enclosing: '"';
+    }
+
+    block StopsHeaderColumnRenamer_AtoE oftype CellWriter {
+        at: range A1:E1;
+         write: ["stop_id", "stop_name", "stop_lat", "stop_lon", "zone_id"];
+    }
+
+	block GtfsTableInterpreter oftype TableInterpreter { 
+     header: true; 
+     columns: [
+            "stop_id" oftype PositiveInteger,
+            "stop_name" oftype text,
+            "stop_lat" oftype Latitude,
+            "stop_lon" oftype Longitude,
+            "zone_id" oftype ZoneId
+              ];
+    }
+
+    valuetype PositiveInteger oftype integer {
+        constraints: [
+            PositiveConstraint
+        ];
+    }
+
+    constraint PositiveConstraint oftype RangeConstraint {
+        lowerBound: 0;
+        lowerBoundInclusive: true;
+    }
+
+    valuetype ZoneId oftype integer {
+        constraints: [ ZoneIdConstraint ];
+ }
+
+    constraint ZoneIdConstraint on integer:
+       value == 1645;
+
+
+     valuetype Latitude oftype decimal {
+        constraints: [LatitudeConstraint];
+    }
+    
+    constraint LatitudeConstraint on decimal:
+        value >= -90 and value <= 90;
+
+    valuetype Longitude oftype decimal {
+        constraints: [LongitudeConstraint];
+    }
+    
+    constraint LongitudeConstraint on decimal:
+        value >= -90 and value <= 90;
+
+	block GtfsDatabaseLoader oftype SQLiteLoader { 
+       table: "stops";
+        file: "gtfs.sqlite";
+    }
+
+    DataExtractor
+    -> ZipArchiveInterpreter
+    -> StopsFilePicker 
+    -> GtfsTextFileInterpreter 
+    -> GtfsCSVInterpreter 
+    -> StopsHeaderColumnRenamer_AtoE
+    -> GtfsTableInterpreter
+    -> GtfsDatabaseLoader;
+}
