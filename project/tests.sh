@@ -1,9 +1,9 @@
 #!/bin/bash
 
-echo "Setting up test environment..."
+echo "Setting up test environment !!!"
 mkdir -p ./data
 rm -f ./data/*.db
 
-echo "Running data pipeline test..."
-python test.py
+echo "Running data pipeline test !!!"
+python ./project/test.py
 
